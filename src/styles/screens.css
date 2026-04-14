@@ -1,0 +1,304 @@
+/* =============================================
+   Screen-specific Styles
+   ============================================= */
+
+/* --- Title Screen --- */
+.title-screen {
+  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  text-align: center;
+  gap: var(--space-xl);
+}
+
+.title-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.title-main {
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.1px;
+  color: var(--inverse-white);
+}
+
+.title-sub {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--body-gray);
+  letter-spacing: 0.1px;
+}
+
+.title-decoration {
+  width: 60px;
+  height: 2px;
+  background: var(--ps-blue);
+  margin: var(--space-md) auto;
+}
+
+.title-cta {
+  margin-top: var(--space-xl);
+}
+
+/* --- Stage Intro Screen --- */
+.stage-intro-screen {
+  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  text-align: center;
+  gap: var(--space-xl);
+}
+
+.stage-number {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ps-cyan);
+  letter-spacing: 1px;
+}
+
+.stage-name {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: 0.1px;
+  color: var(--inverse-white);
+  margin-top: var(--space-sm);
+}
+
+.stage-mission-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--body-gray);
+  margin-top: var(--space-xl);
+}
+
+.stage-mission {
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--inverse-white);
+  margin-top: var(--space-sm);
+  max-width: 600px;
+}
+
+.stage-start-btn {
+  margin-top: var(--space-2xl);
+}
+
+/* --- Stage Clear Screen --- */
+.stage-clear-screen {
+  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  text-align: center;
+  gap: var(--space-lg);
+}
+
+.clear-title {
+  font-size: 44px;
+  font-weight: 300;
+  color: var(--ps-cyan);
+  letter-spacing: 0.1px;
+}
+
+.clear-stats {
+  display: flex;
+  gap: var(--space-2xl);
+  margin-top: var(--space-lg);
+}
+
+.clear-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.clear-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--body-gray);
+}
+
+.clear-stat-value {
+  font-size: 35px;
+  font-weight: 300;
+  color: var(--inverse-white);
+}
+
+.clear-stat-value--highlight {
+  color: var(--ps-cyan);
+}
+
+/* --- Game Over Screen --- */
+.gameover-screen {
+  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  text-align: center;
+  gap: var(--space-lg);
+}
+
+.gameover-title {
+  font-size: 44px;
+  font-weight: 300;
+  color: var(--commerce-orange);
+  letter-spacing: 0.1px;
+}
+
+.gameover-message {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--body-gray);
+  max-width: 500px;
+  line-height: 1.5;
+}
+
+.gameover-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+/* --- Diagnosis Screen --- */
+.diagnosis-screen {
+  background: linear-gradient(180deg, var(--paper-white) 0%, var(--ice-mist) 100%);
+  text-align: center;
+  gap: var(--space-lg);
+  padding: var(--space-2xl);
+  overflow-y: auto;
+}
+
+.diagnosis-header {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ps-blue);
+  letter-spacing: 0.5px;
+}
+
+.diagnosis-career-title {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--display-ink);
+  letter-spacing: 0.1px;
+}
+
+.diagnosis-description {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--deep-charcoal);
+  max-width: 600px;
+  text-align: left;
+}
+
+.diagnosis-params {
+  display: flex;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+.diagnosis-param {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--paper-white);
+  border-radius: 19px;
+  box-shadow: var(--shadow-tile);
+  min-width: 140px;
+}
+
+.diagnosis-param-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--body-gray);
+}
+
+.diagnosis-param-rank {
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--ps-blue);
+}
+
+.diagnosis-param-rank--s {
+  color: var(--ps-cyan);
+}
+
+.diagnosis-param-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--deep-charcoal);
+}
+
+.diagnosis-share {
+  margin-top: var(--space-lg);
+  display: flex;
+  gap: var(--space-md);
+}
+
+.diagnosis-footer {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--divider-tint);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .title-main {
+    font-size: 32px;
+  }
+
+  .stage-name,
+  .clear-title,
+  .gameover-title,
+  .diagnosis-career-title {
+    font-size: 28px;
+  }
+
+  .stage-mission {
+    font-size: 18px;
+  }
+
+  .clear-stats,
+  .diagnosis-params {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .display-xl {
+    font-size: 32px;
+  }
+
+  .display-l {
+    font-size: 28px;
+  }
+
+  .word-display {
+    font-size: 18px;
+  }
+
+  .input-display {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-main {
+    font-size: 24px;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    padding: 10px 24px;
+    font-size: 16px;
+  }
+
+  .gameover-actions {
+    flex-direction: column;
+  }
+
+  .diagnosis-share {
+    flex-direction: column;
+  }
+}
