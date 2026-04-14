@@ -87,7 +87,6 @@ describe('GameLoop', () => {
       game.update(5000);
 
       const word = game.getState().activeWords[0];
-      const reading = word.definition.reading;
 
       // Type the whole word via romaji - use hint for each char
       let currentWord = game.getState().activeWords.find(w => w.id === word.id);

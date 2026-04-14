@@ -1,4 +1,4 @@
-import type { GameState, GamePhase, ActiveWord, StageScore } from '../types';
+import type { GameState, StageScore } from '../types';
 import type { InputResult } from './romaji-engine';
 import { WordManager } from './word-manager';
 import { ScoringEngine, computeTotalScore } from './scoring-engine';

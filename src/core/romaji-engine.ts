@@ -70,13 +70,7 @@ function parseSegments(reading: string): Segment[] {
             doubledOptions.push(romaji[0] + romaji);
           }
         }
-        // Also allow explicit xtu/ltu + next char separately
-        // We merge っ with the next character into one segment
-        const standaloneOptions = ROMAJI_TABLE['っ'] || [];
-        const nextOptions = nextSegmentRomajis;
-
         // Combined options: doubled consonant
-        // Standalone options handled by NOT merging (fallback)
         segments.push({
           hiragana: 'っ' + reading.slice(i + 1, i + 1 + nextLen),
           romajiOptions: doubledOptions,

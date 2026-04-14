@@ -16,7 +16,6 @@ describe('Stage Playthrough Integration', () => {
     expect(game.getState().phase.type).toBe('playing');
 
     // Play through by spawning and typing words
-    let cleared = 0;
     let totalAttempts = 0;
 
     while (game.getState().phase.type === 'playing' && totalAttempts < 80) {

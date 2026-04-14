@@ -5,7 +5,6 @@ export class Renderer {
   private app: HTMLElement;
   private game: GameLoop;
   private previousWordIds = new Set<string>();
-  private starfieldCreated = false;
 
   constructor(app: HTMLElement, game: GameLoop) {
     this.app = app;
@@ -262,7 +261,7 @@ export class Renderer {
     }
   }
 
-  private renderStageClearScreen(stageId: number, score: StageScore): void {
+  private renderStageClearScreen(_stageId: number, score: StageScore): void {
     if (this.app.querySelector('.stage-clear-screen')) return;
 
     const accPct = Math.round(score.accuracy * 100);
@@ -303,7 +302,7 @@ export class Renderer {
     });
   }
 
-  private renderGameOverScreen(stageId: number, score: StageScore): void {
+  private renderGameOverScreen(_stageId: number, score: StageScore): void {
     if (this.app.querySelector('.gameover-screen')) return;
 
     this.app.innerHTML = `
