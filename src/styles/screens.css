@@ -1,10 +1,10 @@
 /* =============================================
-   Screen-specific Styles
+   Screen-specific Styles - Retro Space Invader
    ============================================= */
 
 /* --- Title Screen --- */
 .title-screen {
-  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  background: var(--space-black);
   text-align: center;
   gap: var(--space-xl);
 }
@@ -13,91 +13,150 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
+}
+
+.title-invaders {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow);
+  white-space: pre;
+  line-height: 1.2;
+  letter-spacing: 2px;
 }
 
 .title-main {
-  font-size: 48px;
-  font-weight: 300;
-  line-height: 1.25;
-  letter-spacing: -0.1px;
-  color: var(--inverse-white);
+  font-family: var(--font-jp);
+  font-size: 36px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow), 0 0 30px rgba(51, 255, 51, 0.3);
+  letter-spacing: 4px;
 }
 
 .title-sub {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--body-gray);
-  letter-spacing: 0.1px;
+  font-family: var(--font-jp);
+  font-size: 14px;
+  color: var(--retro-green-dim);
+  letter-spacing: 2px;
 }
 
 .title-decoration {
-  width: 60px;
+  width: 200px;
   height: 2px;
-  background: var(--ps-blue);
-  margin: var(--space-md) auto;
+  background: var(--retro-green);
+  box-shadow: var(--crt-glow);
+  margin: var(--space-sm) auto;
+}
+
+.title-credit {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-green-dim);
+  letter-spacing: 1px;
+}
+
+.title-insert-coin {
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  animation: blink 1.2s step-end infinite;
+  margin-top: var(--space-lg);
 }
 
 .title-cta {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-lg);
 }
 
 /* --- Stage Intro Screen --- */
 .stage-intro-screen {
-  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  background: var(--space-black);
   text-align: center;
-  gap: var(--space-xl);
+  gap: var(--space-lg);
 }
 
 .stage-number {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ps-cyan);
-  letter-spacing: 1px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
+  letter-spacing: 2px;
 }
 
 .stage-name {
-  font-size: 44px;
-  font-weight: 300;
-  line-height: 1.25;
-  letter-spacing: 0.1px;
-  color: var(--inverse-white);
+  font-family: var(--font-jp);
+  font-size: 28px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow);
   margin-top: var(--space-sm);
+}
+
+.stage-distance {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  margin-top: var(--space-md);
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border: 1px solid rgba(255, 170, 0, 0.3);
 }
 
 .stage-mission-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--body-gray);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
   margin-top: var(--space-xl);
+  letter-spacing: 2px;
 }
 
 .stage-mission {
-  font-size: 22px;
-  font-weight: 300;
-  line-height: 1.4;
-  color: var(--inverse-white);
+  font-family: var(--font-jp);
+  font-size: 16px;
+  color: var(--retro-green);
   margin-top: var(--space-sm);
-  max-width: 600px;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.stage-lander-art {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
+  white-space: pre;
+  line-height: 1.1;
+  margin-top: var(--space-lg);
 }
 
 .stage-start-btn {
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl);
 }
 
 /* --- Stage Clear Screen --- */
 .stage-clear-screen {
-  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  background: var(--space-black);
   text-align: center;
   gap: var(--space-lg);
 }
 
 .clear-title {
-  font-size: 44px;
-  font-weight: 300;
-  color: var(--ps-cyan);
-  letter-spacing: 0.1px;
+  font-family: var(--font-pixel);
+  font-size: 24px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan), 0 0 30px rgba(0, 255, 255, 0.3);
+  letter-spacing: 2px;
+}
+
+.clear-approach {
+  font-family: var(--font-jp);
+  font-size: 12px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  margin-top: var(--space-sm);
+  letter-spacing: 1px;
 }
 
 .clear-stats {
@@ -110,45 +169,62 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  padding: var(--space-md);
+  min-width: 100px;
 }
 
 .clear-stat-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--body-gray);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--retro-green-dim);
+  letter-spacing: 1px;
 }
 
 .clear-stat-value {
-  font-size: 35px;
-  font-weight: 300;
-  color: var(--inverse-white);
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow);
 }
 
 .clear-stat-value--highlight {
-  color: var(--ps-cyan);
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
 }
 
 /* --- Game Over Screen --- */
 .gameover-screen {
-  background: linear-gradient(180deg, var(--shadow-black) 0%, var(--console-black) 100%);
+  background: var(--space-black);
   text-align: center;
   gap: var(--space-lg);
 }
 
 .gameover-title {
-  font-size: 44px;
-  font-weight: 300;
-  color: var(--commerce-orange);
-  letter-spacing: 0.1px;
+  font-family: var(--font-pixel);
+  font-size: 24px;
+  color: var(--retro-red);
+  text-shadow: var(--crt-glow-red), 0 0 30px rgba(255, 51, 51, 0.3);
+  letter-spacing: 2px;
+  animation: glitch 0.5s ease;
 }
 
 .gameover-message {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--body-gray);
+  font-family: var(--font-jp);
+  font-size: 14px;
+  color: var(--retro-green-dim);
   max-width: 500px;
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+.gameover-crash {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-red);
+  text-shadow: var(--crt-glow-red);
+  white-space: pre;
+  line-height: 1.1;
 }
 
 .gameover-actions {
@@ -159,41 +235,44 @@
 
 /* --- Diagnosis Screen --- */
 .diagnosis-screen {
-  background: linear-gradient(180deg, var(--paper-white) 0%, var(--ice-mist) 100%);
+  background: var(--space-black);
   text-align: center;
   gap: var(--space-lg);
-  padding: var(--space-2xl);
+  padding: var(--space-xl);
   overflow-y: auto;
 }
 
 .diagnosis-header {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ps-blue);
-  letter-spacing: 0.5px;
+  font-family: var(--font-jp);
+  font-size: 12px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  letter-spacing: 2px;
 }
 
 .diagnosis-career-title {
-  font-size: 44px;
-  font-weight: 300;
-  line-height: 1.25;
-  color: var(--display-ink);
-  letter-spacing: 0.1px;
+  font-family: var(--font-jp);
+  font-size: 28px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan), 0 0 30px rgba(0, 255, 255, 0.3);
+  letter-spacing: 2px;
 }
 
 .diagnosis-description {
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: var(--deep-charcoal);
+  font-family: var(--font-jp);
+  font-size: 14px;
+  color: var(--retro-green);
   max-width: 600px;
   text-align: left;
+  line-height: 1.8;
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  padding: var(--space-md);
 }
 
 .diagnosis-params {
   display: flex;
-  gap: var(--space-xl);
-  margin-top: var(--space-lg);
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
 }
 
 .diagnosis-param {
@@ -201,33 +280,34 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-lg);
-  background: var(--paper-white);
-  border-radius: 19px;
-  box-shadow: var(--shadow-tile);
-  min-width: 140px;
+  padding: var(--space-md);
+  border: 1px solid rgba(51, 255, 51, 0.2);
+  min-width: 130px;
+  background: rgba(51, 255, 51, 0.03);
 }
 
 .diagnosis-param-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--body-gray);
+  font-family: var(--font-jp);
+  font-size: 10px;
+  color: var(--retro-green-dim);
 }
 
 .diagnosis-param-rank {
-  font-size: 48px;
-  font-weight: 300;
-  color: var(--ps-blue);
+  font-family: var(--font-pixel);
+  font-size: 32px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow);
 }
 
 .diagnosis-param-rank--s {
-  color: var(--ps-cyan);
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan), 0 0 20px rgba(0, 255, 255, 0.5);
 }
 
 .diagnosis-param-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--deep-charcoal);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--retro-green-dim);
 }
 
 .diagnosis-share {
@@ -236,62 +316,64 @@
   gap: var(--space-md);
 }
 
-.diagnosis-footer {
-  margin-top: var(--space-xl);
-  padding-top: var(--space-lg);
-  border-top: 1px solid var(--divider-tint);
+.diagnosis-moon-art {
+  font-family: var(--font-pixel);
+  font-size: 6px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  white-space: pre;
+  line-height: 1.0;
+  opacity: 0.6;
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
   .title-main {
-    font-size: 32px;
+    font-size: 24px;
   }
 
   .stage-name,
-  .clear-title,
-  .gameover-title,
   .diagnosis-career-title {
-    font-size: 28px;
+    font-size: 20px;
+  }
+
+  .clear-title,
+  .gameover-title {
+    font-size: 18px;
   }
 
   .stage-mission {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .clear-stats,
   .diagnosis-params {
     flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .display-xl {
-    font-size: 32px;
-  }
-
-  .display-l {
-    font-size: 28px;
+    gap: var(--space-sm);
   }
 
   .word-display {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .input-display {
-    font-size: 22px;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
   .title-main {
-    font-size: 24px;
+    font-size: 18px;
+  }
+
+  .title-invaders {
+    font-size: 6px;
   }
 
   .btn-primary,
-  .btn-secondary,
-  .btn-danger {
-    padding: 10px 24px;
-    font-size: 16px;
+  .btn-secondary {
+    padding: 10px 20px;
+    font-size: 12px;
   }
 
   .gameover-actions {

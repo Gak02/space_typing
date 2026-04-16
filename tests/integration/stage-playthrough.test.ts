@@ -46,7 +46,7 @@ describe('Stage Playthrough Integration', () => {
     expect(['stage-clear', 'game-over']).toContain(phase.type);
 
     if (phase.type === 'stage-clear') {
-      expect(phase.score.wordsClearedCount).toBeGreaterThanOrEqual(10);
+      expect(phase.score.wordsClearedCount).toBeGreaterThanOrEqual(7);
       expect(phase.score.accuracy).toBeGreaterThan(0);
     }
   });

@@ -1,5 +1,5 @@
 /* =============================================
-   Game Screen Styles
+   Game Screen Styles - Retro Space Invader
    ============================================= */
 
 /* --- Game Area --- */
@@ -7,6 +7,14 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  background: var(--space-black);
+}
+
+/* --- Constellation Canvas --- */
+.constellation-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 /* --- HUD (Head-Up Display) --- */
@@ -18,33 +26,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(51, 255, 51, 0.2);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 10;
 }
 
 .hud-left {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 2px;
 }
 
 .hud-stage-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--ps-cyan);
-  letter-spacing: 0.3px;
+  font-family: var(--font-jp);
+  font-size: 12px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
 }
 
 .hud-mission {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--body-gray);
+  font-family: var(--font-jp);
+  font-size: 10px;
+  color: var(--retro-green-dim);
 }
 
 .hud-right {
   display: flex;
-  gap: var(--space-lg);
+  gap: 20px;
   align-items: center;
 }
 
@@ -56,38 +65,54 @@
 }
 
 .hud-stat-label {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--body-gray);
-  text-transform: none;
+  font-size: 7px;
+  color: var(--retro-green-dim);
+  letter-spacing: 1px;
 }
 
 .hud-stat-value {
-  font-size: 22px;
-  font-weight: 300;
-  color: var(--inverse-white);
+  font-size: 14px;
+  color: var(--retro-green);
+  text-shadow: var(--crt-glow);
 }
 
 .hud-stat-value--danger {
-  color: var(--commerce-orange);
+  color: var(--retro-red);
+  text-shadow: var(--crt-glow-red);
+  animation: blink 1s ease infinite;
 }
 
 /* --- Progress --- */
 .game-progress {
   position: absolute;
-  top: 60px;
-  left: var(--space-lg);
-  right: var(--space-lg);
+  top: 50px;
+  left: 16px;
+  right: 16px;
   z-index: 10;
 }
 
-/* --- Falling Words --- */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(51, 255, 51, 0.1);
+  border: 1px solid rgba(51, 255, 51, 0.2);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--retro-green);
+  box-shadow: var(--crt-glow);
+  transition: width 300ms ease;
+}
+
+/* --- Falling Words (Enemies) --- */
 .word-container {
   position: absolute;
-  top: 80px;
+  top: 60px;
   left: 0;
   right: 0;
-  bottom: 100px;
+  bottom: 120px;
+  z-index: 5;
 }
 
 .falling-word {
@@ -95,60 +120,129 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   transform: translateX(-50%);
   transition: top 100ms linear;
   pointer-events: none;
 }
 
 .falling-word--targeted {
-  filter: drop-shadow(0 0 12px rgba(30, 174, 219, 0.6));
+  filter: drop-shadow(0 0 12px rgba(0, 255, 255, 0.8));
+}
+
+.falling-word--targeted .word-display {
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
 }
 
 .falling-word--nuisance .word-display {
-  color: var(--commerce-orange);
+  color: var(--retro-red);
+  text-shadow: var(--crt-glow-red);
 }
 
 .falling-word--nuisance .word-reading {
-  color: rgba(213, 59, 0, 0.7);
+  color: rgba(255, 51, 51, 0.6);
 }
 
 .falling-word--clearing {
-  animation: wordClear 400ms ease forwards;
+  animation: explosion 400ms ease forwards;
+}
+
+/* Enemy bracket decorations */
+.falling-word::before {
+  content: '[ ';
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-green-dim);
+  position: absolute;
+  left: -12px;
+  top: 0;
+}
+
+.falling-word::after {
+  content: ' ]';
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-green-dim);
+  position: absolute;
+  right: -12px;
+  top: 0;
 }
 
 .word-display {
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--inverse-white);
+  font-family: var(--font-jp);
+  font-size: 16px;
+  color: var(--retro-green);
   white-space: nowrap;
-  letter-spacing: 0.1px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  max-width: 220px;
+  text-shadow: var(--crt-glow);
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .word-reading {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.4);
+  font-family: var(--font-jp);
+  font-size: 10px;
+  color: rgba(51, 255, 51, 0.4);
   white-space: nowrap;
 }
 
 .word-romaji {
-  font-size: 16px;
-  font-weight: 500;
+  font-family: var(--font-pixel);
+  font-size: 10px;
   white-space: nowrap;
   display: flex;
 }
 
 .word-romaji .typed {
-  color: var(--ps-cyan);
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
 }
 
 .word-romaji .remaining {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(51, 255, 51, 0.5);
+}
+
+/* --- Lander (Player Ship) --- */
+.lander-container {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+.lander-ascii {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
+  white-space: pre;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.lander-flame {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  white-space: pre;
+  line-height: 1.1;
+  text-align: center;
+  animation: blink 0.3s ease infinite;
+}
+
+/* --- Laser Effect --- */
+.laser-beam {
+  position: absolute;
+  width: 2px;
+  background: var(--retro-cyan);
+  box-shadow: 0 0 8px var(--retro-cyan), 0 0 16px var(--retro-cyan);
+  z-index: 7;
+  animation: laserShoot 200ms ease forwards;
+  pointer-events: none;
 }
 
 /* --- Input Area --- */
@@ -160,45 +254,48 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  padding: 8px 16px;
+  border-top: 1px solid rgba(51, 255, 51, 0.2);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 10;
 }
 
 .input-display {
-  font-size: 28px;
-  font-weight: 300;
-  color: var(--ps-cyan);
-  min-height: 40px;
-  letter-spacing: 2px;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  color: var(--retro-cyan);
+  text-shadow: var(--crt-glow-cyan);
+  min-height: 24px;
+  letter-spacing: 3px;
 }
 
 .input-cursor {
   display: inline-block;
-  width: 2px;
-  height: 28px;
-  background: var(--ps-cyan);
+  width: 10px;
+  height: 16px;
+  background: var(--retro-cyan);
   vertical-align: middle;
-  animation: pulse 1s ease infinite;
+  animation: blink 0.8s step-end infinite;
 }
 
 .input-hint {
-  font-size: 12px;
-  color: var(--body-gray);
-  margin-top: var(--space-xs);
+  font-family: var(--font-jp);
+  font-size: 10px;
+  color: var(--retro-green-dim);
+  margin-top: 4px;
 }
 
 /* --- Lane Positions --- */
-.lane-0 { left: 12%; }
-.lane-1 { left: 30%; }
-.lane-2 { left: 50%; }
-.lane-3 { left: 70%; }
-.lane-4 { left: 88%; }
+.lane-0 { left: 15%; }
+.lane-1 { left: 35%; }
+.lane-2 { left: 55%; }
+.lane-3 { left: 75%; }
+.lane-4 { left: 90%; }
 
 /* --- Wrong Input Flash --- */
 @keyframes wrongFlash {
   0% { background: transparent; }
-  50% { background: rgba(200, 27, 58, 0.15); }
+  50% { background: rgba(255, 51, 51, 0.2); border-color: var(--retro-red); }
   100% { background: transparent; }
 }
 
@@ -216,33 +313,91 @@
 
 .star {
   position: absolute;
-  border-radius: 50%;
   background: white;
 }
 
 .star--small {
   width: 1px;
   height: 1px;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .star--medium {
   width: 2px;
   height: 2px;
-  opacity: 0.4;
-}
-
-.star--large {
-  width: 3px;
-  height: 3px;
   opacity: 0.3;
 }
 
+.star--large {
+  width: 2px;
+  height: 2px;
+  opacity: 0.6;
+}
+
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
 }
 
 .star--twinkle {
-  animation: twinkle 3s ease infinite;
+  animation: twinkle 2s step-end infinite;
+}
+
+/* --- Moon Object --- */
+.moon-bg {
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8e8d0, #c0c0a0 40%, #909070 80%, #606040);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Moon gets bigger as stages progress */
+.moon-bg--stage1 {
+  width: 60px;
+  height: 60px;
+  top: 30px;
+  right: 40px;
+}
+
+.moon-bg--stage2 {
+  width: 100px;
+  height: 100px;
+  top: 20px;
+  right: 30px;
+  opacity: 0.2;
+}
+
+.moon-bg--stage3 {
+  width: 180px;
+  height: 180px;
+  top: 10px;
+  right: 20px;
+  opacity: 0.25;
+}
+
+.moon-bg--stage4 {
+  width: 300px;
+  height: 300px;
+  top: -30px;
+  right: -20px;
+  opacity: 0.3;
+}
+
+/* --- Score Popup --- */
+@keyframes scorePopup {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-30px) scale(1.5); }
+}
+
+.score-popup {
+  position: absolute;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--retro-amber);
+  text-shadow: var(--crt-glow-amber);
+  animation: scorePopup 600ms ease forwards;
+  pointer-events: none;
+  z-index: 20;
 }

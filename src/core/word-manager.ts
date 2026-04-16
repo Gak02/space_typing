@@ -1,7 +1,7 @@
 import type { StageDefinition, ActiveWord, WordDefinition } from '../types';
 import { createRomajiMatcher } from './romaji-engine';
 
-const MAX_ACTIVE_WORDS = 5;
+const MAX_ACTIVE_WORDS = 3;
 const NUM_LANES = 5;
 
 export class WordManager {
