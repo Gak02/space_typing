@@ -402,6 +402,34 @@
   opacity: 0.3;
 }
 
+/* --- Space Debris & Meteors --- */
+.space-debris {
+  position: absolute;
+  top: -40px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Slow-tumbling debris chunks fall straight down while spinning */
+@keyframes debrisFall {
+  from { transform: translateY(0)              rotate(0deg);   opacity: 0.85; }
+  to   { transform: translateY(calc(100vh + 60px)) rotate(720deg); opacity: 0.3;  }
+}
+
+.space-debris--chunk {
+  animation: debrisFall var(--fall-dur, 6s) linear forwards;
+}
+
+/* Fast meteors fall along their rotated axis → true diagonal motion */
+@keyframes meteorFall {
+  from { transform: rotate(var(--meteor-angle, 30deg)) translateY(0);       opacity: 1;   }
+  to   { transform: rotate(var(--meteor-angle, 30deg)) translateY(130vh);   opacity: 0.5; }
+}
+
+.space-debris--meteor {
+  animation: meteorFall var(--fall-dur, 2s) linear forwards;
+}
+
 /* --- Score Popup --- */
 @keyframes scorePopup {
   0% { opacity: 1; transform: translateY(0) scale(1); }

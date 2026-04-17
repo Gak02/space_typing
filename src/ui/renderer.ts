@@ -85,76 +85,227 @@ const CONSTELLATIONS: Constellation[] = [
   },
 ];
 
-// === SVG Lander (Orion/Apollo LM inspired) ===
-const LANDER_SVG = `<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" class="lander-svg">
-  <!-- Antenna -->
-  <line x1="60" y1="2" x2="60" y2="18" stroke="#00ffff" stroke-width="1.5" class="lander-body-stroke"/>
-  <circle cx="60" cy="2" r="2" fill="#00ffff" class="lander-antenna-tip"/>
-  <!-- Docking port -->
-  <rect x="52" y="16" width="16" height="6" rx="2" fill="none" stroke="#00ffff" stroke-width="1.2" class="lander-body-stroke"/>
-  <!-- Command module (top cone) -->
-  <polygon points="40,42 60,18 80,42" fill="none" stroke="#00ffff" stroke-width="1.5" stroke-linejoin="round" class="lander-body-stroke"/>
-  <!-- Window -->
-  <circle cx="60" cy="32" r="5" fill="rgba(0,255,255,0.15)" stroke="#00ffff" stroke-width="1" class="lander-window"/>
-  <!-- Service module (main body) -->
-  <rect x="38" y="42" width="44" height="30" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5" class="lander-body-stroke"/>
-  <!-- Panel lines on body -->
-  <line x1="50" y1="42" x2="50" y2="72" stroke="#00ffff" stroke-width="0.5" opacity="0.4"/>
-  <line x1="70" y1="42" x2="70" y2="72" stroke="#00ffff" stroke-width="0.5" opacity="0.4"/>
-  <line x1="38" y1="55" x2="82" y2="55" stroke="#00ffff" stroke-width="0.5" opacity="0.4"/>
-  <!-- RCS thrusters (small nozzles on sides) -->
-  <rect x="30" y="48" width="8" height="5" rx="1" fill="none" stroke="#00ffff" stroke-width="1" class="lander-body-stroke"/>
-  <rect x="82" y="48" width="8" height="5" rx="1" fill="none" stroke="#00ffff" stroke-width="1" class="lander-body-stroke"/>
-  <!-- Engine bell -->
-  <polygon points="45,72 38,92 82,92 75,72" fill="none" stroke="#00ffff" stroke-width="1.5" stroke-linejoin="round" class="lander-body-stroke"/>
-  <!-- Engine nozzle ring -->
-  <ellipse cx="60" cy="92" rx="22" ry="4" fill="none" stroke="#00ffff" stroke-width="1" class="lander-body-stroke"/>
-  <!-- Landing legs -->
-  <line x1="38" y1="72" x2="18" y2="105" stroke="#00ffff" stroke-width="1.5" class="lander-body-stroke"/>
-  <line x1="82" y1="72" x2="102" y2="105" stroke="#00ffff" stroke-width="1.5" class="lander-body-stroke"/>
-  <!-- Foot pads -->
-  <ellipse cx="18" cy="106" rx="8" ry="3" fill="none" stroke="#00ffff" stroke-width="1.2" class="lander-body-stroke"/>
-  <ellipse cx="102" cy="106" rx="8" ry="3" fill="none" stroke="#00ffff" stroke-width="1.2" class="lander-body-stroke"/>
-  <!-- Thruster flame (animated) -->
-  <g class="lander-flame-group">
-    <polygon points="48,96 60,130 72,96" fill="rgba(255,170,0,0.6)" class="flame flame-main">
-      <animate attributeName="points" values="48,96 60,130 72,96;46,96 60,135 74,96;48,96 60,128 72,96" dur="0.15s" repeatCount="indefinite"/>
-    </polygon>
-    <polygon points="52,96 60,120 68,96" fill="rgba(255,100,0,0.8)" class="flame flame-inner">
-      <animate attributeName="points" values="52,96 60,120 68,96;50,96 60,124 70,96;52,96 60,118 68,96" dur="0.12s" repeatCount="indefinite"/>
-    </polygon>
-    <polygon points="55,96 60,110 65,96" fill="rgba(255,255,200,0.9)" class="flame flame-core">
-      <animate attributeName="points" values="55,96 60,110 65,96;54,96 60,113 66,96;55,96 60,108 65,96" dur="0.1s" repeatCount="indefinite"/>
-    </polygon>
+// === 3D SVG Lander (Apollo LM / Orion inspired, with gradients) ===
+const LANDER_SVG = `<svg viewBox="0 0 130 155" xmlns="http://www.w3.org/2000/svg" class="lander-svg">
+  <defs>
+    <!-- Metallic blue-silver body -->
+    <linearGradient id="ld-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#c8e8ff"/>
+      <stop offset="30%"  stop-color="#5599cc"/>
+      <stop offset="70%"  stop-color="#1a3a5c"/>
+      <stop offset="100%" stop-color="#060e1a"/>
+    </linearGradient>
+    <!-- Gold thermal insulation (Mylar foil) -->
+    <linearGradient id="ld-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#fff0a0"/>
+      <stop offset="35%"  stop-color="#e8a800"/>
+      <stop offset="75%"  stop-color="#a06000"/>
+      <stop offset="100%" stop-color="#3a1e00"/>
+    </linearGradient>
+    <!-- Dark metallic for engine bell / collar -->
+    <linearGradient id="ld-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#aaaaaa"/>
+      <stop offset="40%"  stop-color="#444455"/>
+      <stop offset="100%" stop-color="#111122"/>
+    </linearGradient>
+    <!-- Landing leg gradient -->
+    <linearGradient id="ld-leg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#88aacc"/>
+      <stop offset="50%"  stop-color="#334466"/>
+      <stop offset="100%" stop-color="#112233"/>
+    </linearGradient>
+    <!-- Window -->
+    <radialGradient id="ld-win" cx="35%" cy="30%" r="65%">
+      <stop offset="0%"   stop-color="#aaeeff"/>
+      <stop offset="45%"  stop-color="#0077bb"/>
+      <stop offset="100%" stop-color="#002244"/>
+    </radialGradient>
+    <!-- Flame outer -->
+    <radialGradient id="ld-flame" cx="50%" cy="5%" r="95%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="15%"  stop-color="#ffee88" stop-opacity="1"/>
+      <stop offset="50%"  stop-color="#ff6600" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ff1100" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Drop shadow -->
+    <filter id="ld-shadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="1" dy="3" stdDeviation="2.5" flood-color="#000033" flood-opacity="0.7"/>
+    </filter>
+    <!-- Subtle glow for whole ship -->
+    <filter id="ld-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ── Antenna ── -->
+  <line x1="65" y1="3" x2="65" y2="18" stroke="#88ccee" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="65" cy="3" r="2.5" fill="#ff4444">
+    <animate attributeName="opacity" values="1;0.1;1" dur="1.4s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── Command module cone (3D: gradient fill + highlight sliver) ── -->
+  <polygon points="43,44 65,16 87,44"
+    fill="url(#ld-body)" stroke="#3377aa" stroke-width="0.6"
+    filter="url(#ld-shadow)"/>
+  <!-- Highlight on lit face -->
+  <polygon points="50,44 65,18 70,44" fill="rgba(255,255,255,0.18)"/>
+  <!-- Shadow on dark face -->
+  <polygon points="80,44 65,18 87,44" fill="rgba(0,0,30,0.3)"/>
+
+  <!-- ── Docking collar ── -->
+  <rect x="53" y="42" width="24" height="7" rx="2"
+    fill="url(#ld-metal)" stroke="#4488aa" stroke-width="0.5"/>
+  <rect x="55" y="43" width="10" height="3" rx="1" fill="rgba(200,240,255,0.25)"/>
+
+  <!-- ── Ascent stage body (gold thermal blanket) ── -->
+  <rect x="39" y="49" width="52" height="26" rx="3"
+    fill="url(#ld-gold)" stroke="#cc8800" stroke-width="0.6"
+    filter="url(#ld-shadow)"/>
+  <!-- Gold highlight (top bright strip) -->
+  <rect x="39" y="49" width="52" height="9" rx="3" fill="rgba(255,255,200,0.28)"/>
+  <!-- Gold shadow (bottom dark strip) -->
+  <rect x="39" y="66" width="52" height="9" rx="3" fill="rgba(60,30,0,0.35)"/>
+  <!-- Panel seam lines -->
+  <line x1="39" y1="60" x2="91" y2="60" stroke="#aa7700" stroke-width="0.6" opacity="0.5"/>
+  <line x1="57" y1="49" x2="57" y2="75" stroke="#aa7700" stroke-width="0.6" opacity="0.5"/>
+  <line x1="73" y1="49" x2="73" y2="75" stroke="#aa7700" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- ── Porthole window ── -->
+  <circle cx="65" cy="61" r="8" fill="url(#ld-win)" stroke="#66aacc" stroke-width="1.2"/>
+  <!-- Specular highlight -->
+  <ellipse cx="61" cy="57" rx="3" ry="2" fill="rgba(255,255,255,0.55)" transform="rotate(-20,61,57)"/>
+  <!-- Rim reflection -->
+  <circle cx="65" cy="61" r="8" fill="none" stroke="rgba(180,230,255,0.4)" stroke-width="0.8"/>
+
+  <!-- ── RCS thruster pods (sides) ── -->
+  <rect x="27" y="55" width="12" height="9" rx="2"
+    fill="url(#ld-metal)" stroke="#335577" stroke-width="0.5"/>
+  <rect x="91" y="55" width="12" height="9" rx="2"
+    fill="url(#ld-metal)" stroke="#335577" stroke-width="0.5"/>
+  <!-- Nozzle openings -->
+  <ellipse cx="27" cy="59" rx="2" ry="3" fill="#000a1a"/>
+  <ellipse cx="103" cy="59" rx="2" ry="3" fill="#000a1a"/>
+  <!-- Highlight on pods -->
+  <rect x="28" y="55" width="5" height="4" rx="1" fill="rgba(180,220,255,0.2)"/>
+  <rect x="92" y="55" width="5" height="4" rx="1" fill="rgba(180,220,255,0.2)"/>
+
+  <!-- ── Descent stage (lower box) ── -->
+  <rect x="37" y="75" width="56" height="20" rx="3"
+    fill="url(#ld-body)" stroke="#2255aa" stroke-width="0.6"
+    filter="url(#ld-shadow)"/>
+  <!-- Descent stage top highlight -->
+  <rect x="37" y="75" width="56" height="7" rx="3" fill="rgba(120,180,255,0.22)"/>
+  <!-- Panel details -->
+  <line x1="55" y1="75" x2="55" y2="95" stroke="#1a3355" stroke-width="0.6" opacity="0.6"/>
+  <line x1="75" y1="75" x2="75" y2="95" stroke="#1a3355" stroke-width="0.6" opacity="0.6"/>
+  <rect x="59" y="79" width="12" height="7" rx="1" fill="rgba(0,200,255,0.12)" stroke="#336699" stroke-width="0.4"/>
+
+  <!-- ── Engine bell (3D tapered) ── -->
+  <path d="M48,95 L39,116 L91,116 L82,95 Z"
+    fill="url(#ld-metal)" stroke="#334455" stroke-width="0.7"
+    filter="url(#ld-shadow)"/>
+  <!-- Inner bell (dark bore) -->
+  <path d="M51,95 L43,113 L87,113 L79,95 Z" fill="#080c18"/>
+  <!-- Rim highlight -->
+  <ellipse cx="65" cy="116" rx="26" ry="5" fill="none" stroke="#556677" stroke-width="1.2"/>
+  <!-- Interior engine glow -->
+  <ellipse cx="65" cy="113" rx="19" ry="3.5" fill="rgba(255,160,0,0.35)">
+    <animate attributeName="fill-opacity" values="0.35;0.65;0.25;0.35" dur="0.35s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ── Landing legs ── -->
+  <!-- Primary struts -->
+  <line x1="42" y1="88" x2="14" y2="128" stroke="url(#ld-leg)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="88" y1="88" x2="116" y2="128" stroke="url(#ld-leg)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Diagonal braces -->
+  <line x1="37" y1="100" x2="16" y2="120" stroke="#3366aa" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="93" y1="100" x2="114" y2="120" stroke="#3366aa" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- ── Foot pads (3D ellipses) ── -->
+  <ellipse cx="14" cy="130" rx="12" ry="4.5"
+    fill="url(#ld-metal)" stroke="#3366aa" stroke-width="1.2"/>
+  <ellipse cx="14" cy="128" rx="8" ry="2.5" fill="rgba(150,200,255,0.2)"/>
+  <ellipse cx="116" cy="130" rx="12" ry="4.5"
+    fill="url(#ld-metal)" stroke="#3366aa" stroke-width="1.2"/>
+  <ellipse cx="116" cy="128" rx="8" ry="2.5" fill="rgba(150,200,255,0.2)"/>
+
+  <!-- ── Engine flame (3-layer animated) ── -->
+  <g filter="url(#ld-glow)">
+    <!-- Outer flame -->
+    <path d="M46,118 Q43,138 65,152 Q87,138 84,118 Z" fill="url(#ld-flame)" opacity="0.75">
+      <animate attributeName="d"
+        values="M46,118 Q43,138 65,152 Q87,138 84,118 Z;M44,118 Q40,142 65,156 Q90,142 86,118 Z;M46,118 Q44,136 65,150 Q86,136 84,118 Z"
+        dur="0.14s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.75;0.95;0.6;0.75" dur="0.18s" repeatCount="indefinite"/>
+    </path>
+    <!-- Mid flame -->
+    <path d="M51,118 Q52,134 65,144 Q78,134 79,118 Z" fill="rgba(255,200,60,0.9)">
+      <animate attributeName="d"
+        values="M51,118 Q52,134 65,144 Q78,134 79,118 Z;M50,118 Q52,137 65,148 Q78,137 80,118 Z;M51,118 Q53,132 65,142 Q77,132 79,118 Z"
+        dur="0.11s" repeatCount="indefinite"/>
+    </path>
+    <!-- Core (white hot) -->
+    <path d="M56,118 Q58,128 65,136 Q72,128 74,118 Z" fill="rgba(255,255,240,0.98)">
+      <animate attributeName="d"
+        values="M56,118 Q58,128 65,136 Q72,128 74,118 Z;M55,118 Q58,130 65,138 Q72,130 75,118 Z;M56,118 Q59,127 65,135 Q71,127 74,118 Z"
+        dur="0.09s" repeatCount="indefinite"/>
+    </path>
   </g>
-  <!-- Glow effect behind ship -->
-  <ellipse cx="60" cy="96" rx="14" ry="6" fill="rgba(255,170,0,0.15)" class="engine-glow">
-    <animate attributeName="ry" values="6;8;5;6" dur="0.3s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.15;0.25;0.1;0.15" dur="0.3s" repeatCount="indefinite"/>
+  <!-- Engine heat bloom -->
+  <ellipse cx="65" cy="120" rx="18" ry="7" fill="rgba(255,140,0,0.12)">
+    <animate attributeName="rx" values="18;22;16;18" dur="0.3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.12;0.22;0.08;0.12" dur="0.3s" repeatCount="indefinite"/>
   </ellipse>
 </svg>`;
 
-// Small lander for stage intro
-const LANDER_SVG_SMALL = `<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" class="lander-svg-small">
-  <line x1="60" y1="2" x2="60" y2="18" stroke="#00ffff" stroke-width="1.5"/>
-  <circle cx="60" cy="2" r="2" fill="#00ffff"/>
-  <rect x="52" y="16" width="16" height="6" rx="2" fill="none" stroke="#00ffff" stroke-width="1.2"/>
-  <polygon points="40,42 60,18 80,42" fill="none" stroke="#00ffff" stroke-width="1.5" stroke-linejoin="round"/>
-  <circle cx="60" cy="32" r="5" fill="rgba(0,255,255,0.15)" stroke="#00ffff" stroke-width="1"/>
-  <rect x="38" y="42" width="44" height="30" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-  <polygon points="45,72 38,92 82,92 75,72" fill="none" stroke="#00ffff" stroke-width="1.5" stroke-linejoin="round"/>
-  <line x1="38" y1="72" x2="18" y2="105" stroke="#00ffff" stroke-width="1.5"/>
-  <line x1="82" y1="72" x2="102" y2="105" stroke="#00ffff" stroke-width="1.5"/>
-  <ellipse cx="18" cy="106" rx="8" ry="3" fill="none" stroke="#00ffff" stroke-width="1.2"/>
-  <ellipse cx="102" cy="106" rx="8" ry="3" fill="none" stroke="#00ffff" stroke-width="1.2"/>
-  <g class="lander-flame-group">
-    <polygon points="48,96 60,125 72,96" fill="rgba(255,170,0,0.5)">
-      <animate attributeName="points" values="48,96 60,125 72,96;46,96 60,130 74,96;48,96 60,122 72,96" dur="0.15s" repeatCount="indefinite"/>
-    </polygon>
-    <polygon points="54,96 60,112 66,96" fill="rgba(255,255,200,0.7)">
-      <animate attributeName="points" values="54,96 60,112 66,96;53,96 60,115 67,96;54,96 60,110 66,96" dur="0.1s" repeatCount="indefinite"/>
-    </polygon>
-  </g>
+// Small 3D lander for stage intro (shared defs use lds- prefix to avoid ID conflict)
+const LANDER_SVG_SMALL = `<svg viewBox="0 0 130 155" xmlns="http://www.w3.org/2000/svg" class="lander-svg-small">
+  <defs>
+    <linearGradient id="lds-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c8e8ff"/><stop offset="30%" stop-color="#5599cc"/>
+      <stop offset="70%" stop-color="#1a3a5c"/><stop offset="100%" stop-color="#060e1a"/>
+    </linearGradient>
+    <linearGradient id="lds-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff0a0"/><stop offset="40%" stop-color="#e8a800"/>
+      <stop offset="100%" stop-color="#3a1e00"/>
+    </linearGradient>
+    <linearGradient id="lds-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#aaaaaa"/><stop offset="100%" stop-color="#111122"/>
+    </linearGradient>
+    <radialGradient id="lds-win" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#aaeeff"/><stop offset="100%" stop-color="#002244"/>
+    </radialGradient>
+  </defs>
+  <line x1="65" y1="3" x2="65" y2="18" stroke="#88ccee" stroke-width="1.5"/>
+  <circle cx="65" cy="3" r="2.5" fill="#ff4444">
+    <animate attributeName="opacity" values="1;0.1;1" dur="1.4s" repeatCount="indefinite"/>
+  </circle>
+  <polygon points="43,44 65,16 87,44" fill="url(#lds-body)" stroke="#3377aa" stroke-width="0.6"/>
+  <polygon points="50,44 65,18 70,44" fill="rgba(255,255,255,0.18)"/>
+  <rect x="53" y="42" width="24" height="7" rx="2" fill="url(#lds-metal)" stroke="#4488aa" stroke-width="0.5"/>
+  <rect x="39" y="49" width="52" height="26" rx="3" fill="url(#lds-gold)" stroke="#cc8800" stroke-width="0.6"/>
+  <rect x="39" y="49" width="52" height="9" rx="3" fill="rgba(255,255,200,0.28)"/>
+  <line x1="39" y1="60" x2="91" y2="60" stroke="#aa7700" stroke-width="0.6" opacity="0.5"/>
+  <circle cx="65" cy="61" r="8" fill="url(#lds-win)" stroke="#66aacc" stroke-width="1.2"/>
+  <ellipse cx="61" cy="57" rx="3" ry="2" fill="rgba(255,255,255,0.55)" transform="rotate(-20,61,57)"/>
+  <rect x="37" y="75" width="56" height="20" rx="3" fill="url(#lds-body)" stroke="#2255aa" stroke-width="0.6"/>
+  <rect x="37" y="75" width="56" height="7" rx="3" fill="rgba(120,180,255,0.22)"/>
+  <path d="M48,95 L39,116 L91,116 L82,95 Z" fill="url(#lds-metal)" stroke="#334455" stroke-width="0.7"/>
+  <path d="M51,95 L43,113 L87,113 L79,95 Z" fill="#080c18"/>
+  <ellipse cx="65" cy="113" rx="19" ry="3.5" fill="rgba(255,160,0,0.35)">
+    <animate attributeName="fill-opacity" values="0.35;0.65;0.25;0.35" dur="0.35s" repeatCount="indefinite"/>
+  </ellipse>
+  <line x1="42" y1="88" x2="14" y2="128" stroke="#3366aa" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="88" y1="88" x2="116" y2="128" stroke="#3366aa" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="14" cy="130" rx="12" ry="4.5" fill="url(#lds-metal)" stroke="#3366aa" stroke-width="1.2"/>
+  <ellipse cx="116" cy="130" rx="12" ry="4.5" fill="url(#lds-metal)" stroke="#3366aa" stroke-width="1.2"/>
+  <path d="M46,118 Q43,138 65,152 Q87,138 84,118 Z" fill="rgba(255,120,0,0.7)">
+    <animate attributeName="d" values="M46,118 Q43,138 65,152 Q87,138 84,118 Z;M44,118 Q40,142 65,156 Q90,142 86,118 Z;M46,118 Q44,136 65,150 Q86,136 84,118 Z" dur="0.14s" repeatCount="indefinite"/>
+  </path>
+  <path d="M56,118 Q58,128 65,136 Q72,128 74,118 Z" fill="rgba(255,255,240,0.95)">
+    <animate attributeName="d" values="M56,118 Q58,128 65,136 Q72,128 74,118 Z;M55,118 Q58,130 65,138 Q72,130 75,118 Z;M56,118 Q59,127 65,135 Q71,127 74,118 Z" dur="0.1s" repeatCount="indefinite"/>
+  </path>
 </svg>`;
 
 // Crashed lander SVG for game over
@@ -228,10 +379,103 @@ export class Renderer {
   private app: HTMLElement;
   private game: GameLoop;
   private previousWordIds = new Set<string>();
+  private debrisIntervalId: ReturnType<typeof setInterval> | null = null;
 
   constructor(app: HTMLElement, game: GameLoop) {
     this.app = app;
     this.game = game;
+  }
+
+  // ── Debris / Meteor spawner ──────────────────────────────────────
+  private startDebrisSpawner(): void {
+    if (this.debrisIntervalId !== null) return;
+    // Spawn immediately, then on interval
+    this.spawnDebris();
+    this.debrisIntervalId = setInterval(() => {
+      this.spawnDebris();
+      if (Math.random() > 0.55) this.spawnDebris(); // occasionally double-spawn
+    }, 1800 + Math.random() * 1200);
+  }
+
+  private stopDebrisSpawner(): void {
+    if (this.debrisIntervalId !== null) {
+      clearInterval(this.debrisIntervalId);
+      this.debrisIntervalId = null;
+    }
+  }
+
+  private spawnDebris(): void {
+    const gameArea = this.app.querySelector('.game-area');
+    if (!gameArea) return;
+
+    const isMeteor = Math.random() > 0.45;
+    const el = document.createElement('div');
+
+    const leftPct  = 3 + Math.random() * 94;
+    const duration = isMeteor
+      ? 1.2 + Math.random() * 1.8   // meteors: fast
+      : 5   + Math.random() * 6;    // debris:  slow tumble
+
+    el.style.left = `${leftPct}%`;
+    el.style.setProperty('--fall-dur', `${duration}s`);
+
+    if (isMeteor) {
+      const angle = 20 + Math.random() * 30; // 20°–50° diagonal
+      const size  = 8 + Math.random() * 14;
+      el.className = 'space-debris space-debris--meteor';
+      el.style.setProperty('--meteor-angle', `${angle}deg`);
+      el.innerHTML = this.buildMeteorSVG(size);
+    } else {
+      const size = 7 + Math.random() * 18;
+      el.className = 'space-debris space-debris--chunk';
+      el.innerHTML = this.buildChunkSVG(size);
+    }
+
+    gameArea.appendChild(el);
+    setTimeout(() => el.remove(), (duration + 0.5) * 1000);
+  }
+
+  private buildMeteorSVG(size: number): string {
+    const w = Math.round(size * 5);
+    const h = Math.round(size * 1.6);
+    const r = Math.round(size * 0.55);
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
+  <defs>
+    <linearGradient id="mt-trail-${Math.random().toString(36).slice(2,6)}" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#ff4400" stop-opacity="0"/>
+      <stop offset="60%"  stop-color="#ff8800" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ffcc44" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="${Math.round(h*0.3)}" width="${w - r}" height="${Math.round(h*0.4)}" rx="${Math.round(h*0.2)}"
+    fill="rgba(255,100,0,0.35)"/>
+  <ellipse cx="${w - r}" cy="${h / 2}" rx="${r}" ry="${r * 0.7}"
+    fill="#dd7722" stroke="#ffaa44" stroke-width="0.8"/>
+  <ellipse cx="${w - r - 2}" cy="${h * 0.38}" rx="${Math.round(r*0.4)}" ry="${Math.round(r*0.25)}"
+    fill="rgba(255,230,120,0.75)"/>
+</svg>`;
+  }
+
+  private buildChunkSVG(size: number): string {
+    // Generate random convex-ish polygon
+    const sides = 5 + Math.floor(Math.random() * 4);
+    const pts: string[] = [];
+    const half = size;
+    for (let i = 0; i < sides; i++) {
+      const angle = (i / sides) * Math.PI * 2 - Math.PI / 2;
+      const r = half * (0.55 + Math.random() * 0.45);
+      pts.push(`${(Math.cos(angle) * r + half).toFixed(1)},${(Math.sin(angle) * r + half).toFixed(1)}`);
+    }
+    const d = pts.join(' ');
+    // pick 3 highlight pts (first facet)
+    const hi = pts.slice(0, 3).join(' ');
+    const dim = Math.round(size * 2);
+    // Randomise grey tone
+    const grey = 90 + Math.floor(Math.random() * 60);
+    return `<svg width="${dim}" height="${dim}" viewBox="0 0 ${dim} ${dim}" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible">
+  <polygon points="${d}" fill="rgb(${grey},${grey - 10},${grey - 15})" stroke="rgb(${grey + 40},${grey + 35},${grey + 30})" stroke-width="0.7"/>
+  <polygon points="${hi}" fill="rgba(255,255,255,0.22)"/>
+</svg>`;
   }
 
   render(state: GameState): void {
@@ -261,6 +505,7 @@ export class Renderer {
 
   private renderTitleScreen(): void {
     if (this.app.querySelector('.title-screen')) return;
+    this.stopDebrisSpawner();
     this.app.innerHTML = `
       <div class="screen title-screen">
         <div class="starfield" id="starfield"></div>
@@ -290,6 +535,7 @@ export class Renderer {
 
   private renderStageIntroScreen(stageId: number): void {
     if (this.app.querySelector('.stage-intro-screen')) return;
+    this.stopDebrisSpawner();
     const stageName = this.game.getCurrentStageName();
     const mission = this.game.getCurrentMission();
     const stageLabel = stageId === 4 ? 'FINAL STAGE' : `STAGE ${stageId}`;
@@ -376,6 +622,7 @@ export class Renderer {
       this.createStarfield();
       this.drawConstellations(stageId);
       this.previousWordIds.clear();
+      this.startDebrisSpawner();
     }
 
     this.updateHUD(state);
@@ -521,6 +768,7 @@ export class Renderer {
 
   private renderStageClearScreen(stageId: number, score: StageScore): void {
     if (this.app.querySelector('.stage-clear-screen')) return;
+    this.stopDebrisSpawner();
 
     const accPct = Math.round(score.accuracy * 100);
     const speedStr = score.averageSpeed.toFixed(1);
@@ -572,7 +820,7 @@ export class Renderer {
 
   private renderGameOverScreen(_stageId: number, score: StageScore): void {
     if (this.app.querySelector('.gameover-screen')) return;
-
+    this.stopDebrisSpawner();
     this.app.innerHTML = `
       <div class="screen gameover-screen">
         <div class="starfield" id="starfield"></div>
@@ -611,7 +859,7 @@ export class Renderer {
 
   private renderDiagnosisScreen(result: DiagnosisResult): void {
     if (this.app.querySelector('.diagnosis-screen')) return;
-
+    this.stopDebrisSpawner();
     const rankClass = (rank: string) => rank === 'S' ? 'diagnosis-param-rank diagnosis-param-rank--s' : 'diagnosis-param-rank';
 
     this.app.innerHTML = `
