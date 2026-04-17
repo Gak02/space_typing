@@ -122,13 +122,9 @@
 }
 
 .stage-lander-art {
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  color: var(--retro-cyan);
-  text-shadow: var(--crt-glow-cyan);
-  white-space: pre;
-  line-height: 1.1;
   margin-top: var(--space-lg);
+  display: flex;
+  justify-content: center;
 }
 
 .stage-start-btn {
@@ -219,12 +215,15 @@
 }
 
 .gameover-crash {
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  color: var(--retro-red);
-  text-shadow: var(--crt-glow-red);
-  white-space: pre;
-  line-height: 1.1;
+  display: flex;
+  justify-content: center;
+  margin: var(--space-md) 0;
+}
+
+.crashed-lander-svg {
+  width: 120px;
+  height: 90px;
+  filter: drop-shadow(0 0 8px rgba(255, 51, 51, 0.5));
 }
 
 .gameover-actions {
@@ -317,13 +316,16 @@
 }
 
 .diagnosis-moon-art {
-  font-family: var(--font-pixel);
-  font-size: 6px;
-  color: var(--retro-amber);
-  text-shadow: var(--crt-glow-amber);
-  white-space: pre;
-  line-height: 1.0;
-  opacity: 0.6;
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+
+.moon-svg {
+  width: 140px;
+  height: 140px;
+  filter: drop-shadow(0 0 12px rgba(255, 170, 0, 0.3));
+  animation: floatUp 4s ease-in-out infinite;
 }
 
 /* --- Responsive --- */

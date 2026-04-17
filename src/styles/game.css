@@ -206,32 +206,49 @@
 /* --- Lander (Player Ship) --- */
 .lander-container {
   position: absolute;
-  bottom: 60px;
+  bottom: 55px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 8;
   animation: floatUp 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.4));
 }
 
-.lander-ascii {
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  color: var(--retro-cyan);
-  text-shadow: var(--crt-glow-cyan);
-  white-space: pre;
-  line-height: 1.1;
-  text-align: center;
+/* SVG lander in game (full size) */
+.lander-svg {
+  width: 80px;
+  height: 93px;
+  display: block;
 }
 
-.lander-flame {
-  font-family: var(--font-pixel);
-  font-size: 8px;
-  color: var(--retro-amber);
-  text-shadow: var(--crt-glow-amber);
-  white-space: pre;
-  line-height: 1.1;
-  text-align: center;
-  animation: blink 0.3s ease infinite;
+/* SVG lander on stage intro (smaller) */
+.lander-svg-small {
+  width: 60px;
+  height: 70px;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.4));
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+/* Stroke animation for lander body - subtle glow pulse */
+.lander-body-stroke {
+  filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.6));
+}
+
+/* Window glow pulse */
+.lander-window {
+  animation: windowGlow 2s ease-in-out infinite;
+}
+
+@keyframes windowGlow {
+  0%, 100% { fill: rgba(0, 255, 255, 0.1); }
+  50%       { fill: rgba(0, 255, 255, 0.35); }
+}
+
+/* Antenna tip blink */
+.lander-antenna-tip {
+  animation: blink 2s step-end infinite;
 }
 
 /* --- Laser Effect --- */
